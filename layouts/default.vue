@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+  import {useUserStore} from "~/store/user";
+
+  const userStore = useUserStore()
+
   let isAccountMenu = ref(false)
   let isSearching = ref(false)
   let isCartHover = ref(false)
@@ -6,8 +10,8 @@
 </script>
 
 <template>
-  <div id="mainLayout" class="w-full fixes z-50 ">
-    <div id="topMenu" class="w-full bg-[#FAFAFA] border-b md:block hidden">
+  <div class="w-full fixes z-50 ">
+    <div class="w-full bg-[#FAFAFA] border-b md:block hidden">
       <ul
         class="flex items-center justify-end mx-auto text-xs text-[#333333] font-light px-2 h-10 bg-[#FAFAFA] max-w-[1200px]"
       >
@@ -39,7 +43,6 @@
 
           <div
             v-if="isAccountMenu"
-            id="accountMenu"
             class="absolute bg-white w-[220px] text-[#333333] z-40 top-[38px] -left-[105px] border-x border-b"
           >
             <div>
@@ -73,7 +76,7 @@
       </ul>
     </div>
 
-    <div id="MainHeader" class="flex items-center w-full bg-white">
+    <div class="flex items-center w-full bg-white">
       <div
           class="flex lg:justify-start justify-between gap-10 max-w-[1150px] w-full px-3 py-5 mx-auto"
       >
@@ -99,7 +102,7 @@
             <div class="absolute bg-white max-w-[700px] h-auto w-full">
               <div class="p-1">
                 <NuxtLink
-                  to="/item/1"
+                  to="/product/1"
                   class="flex items-center justify-between w-full cursor-pointer hover:bg-gray-100"
                 >
                   <div class="flex items-center">
@@ -158,7 +161,6 @@
 
   <Loading v-if="userStore.isLoading" />
 
-  <div class="lg:pt-[150px] md:pt-[130px] pt-[80px]"/>
   <slot />
 
   <Footer v-if="!userStore.isLoading" />
