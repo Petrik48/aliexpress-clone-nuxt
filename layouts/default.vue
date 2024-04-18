@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <div class="w-full fixes z-50 ">
+  <div class="w-full fixed z-50">
     <div class="w-full bg-[#FAFAFA] border-b md:block hidden">
       <ul
         class="flex items-center justify-end mx-auto text-xs text-[#333333] font-light px-2 h-10 bg-[#FAFAFA] max-w-[1200px]"
@@ -117,7 +117,7 @@
         </div>
 
         <NuxtLink
-          to="/shoppingcard"
+          to="/shoppingcart"
           class="flex items-center"
         >
           <button
@@ -161,7 +161,9 @@
 
   <Loading v-if="userStore.isLoading" />
 
-  <slot />
+  <div class="bg-[#F2F2F2] pt-[140px] pb-10">
+    <slot />
+  </div>
 
   <Footer v-if="!userStore.isLoading" />
 </template>
