@@ -1,8 +1,10 @@
+import type {IProduct} from "~/components/product/product.types";
+
 interface IUserStore {
   isMenuOverlay: boolean,
   isLoading: boolean,
-  cart: any[],
-  checkout: any[],
+  cart: IProduct[],
+  checkout: IProduct[],
 }
 
 const defaultValue: {store: IUserStore} = {

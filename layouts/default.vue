@@ -117,7 +117,7 @@
         </div>
 
         <NuxtLink
-          to="/shoppingcart"
+          to="/shopping-cart"
           class="flex items-center"
         >
           <button
