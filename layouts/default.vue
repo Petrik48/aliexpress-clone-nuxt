@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import {useUserStore} from "~/store/user";
 
-  const userStore = useUserStore()
+  const {store: userStore} = useUserStore()
 
   let isAccountMenu = ref(false)
   let isSearching = ref(false)
