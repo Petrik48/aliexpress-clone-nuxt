@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import type {IOrder} from "~/types/order.types";
 
 const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
-  const body: IOrder = await readBody(event)
+  const body = await readBody(event)
 
   const order = await prisma.orders.create({
     data: {
@@ -22,7 +21,7 @@ export default defineEventHandler(async (event) => {
     await prisma.orderItem.create({
       data: {
         orderId: order.id,
-        productId: Number(prod.id)
+        productId: Number(prod.id),
       }
     })
   }

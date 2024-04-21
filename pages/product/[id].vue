@@ -1,9 +1,53 @@
+<script setup lang="ts">
+import {useUserStore} from "~/store/user";
+
+let currentImage = ref(null)
+let product = ref(null)
+const images = ref([])
+const {store: userStore} = useUserStore()
+const route = useRoute()
+
+onBeforeMount(async () => {
+  product.value = await useFetch(`/api/prisma/get-product-by-id/${route.params.id}`)
+})
+
+watchEffect(() => {
+  if (product.value && product.value.data) {
+    currentImage.value = product.value.data.url
+    images.value[0] = product.value.data.url[0]
+    images.value = product.value.data.url
+    userStore.isLoading = false
+  }
+})
+
+const isInCart = computed(() => {
+  let res = false
+  userStore.cart.forEach(prod => {
+    if (+route.params.id === +prod.id) {
+      res = true
+    }
+  })
+  return res
+})
+
+const priceComputed = computed(() => {
+  if (product.value && product.value.data) {
+    return product.value.data.price / 100
+  }
+  return '0.00'
+})
+
+const addToCart = () => {
+  userStore.cart.push(product.value.data)
+}
+</script>
+
 <template>
   <div class="mt-4 max-w-[1200px] mx-auto px-2">
     <div class="md:flex gap-4 justify-between mx-auto w-full">
       <div class="md:w-[40%]">
         <img v-if="currentImage" class="rounded-lg object-fit" :src="currentImage">
-        <div v-if="images[0] !== ''" class="flex items-center justify-center mt-2">
+        <div v-if="images && images[0] !== ''" class="flex items-center justify-center mt-2">
           <div v-for="image in images">
             <img
                 width="70"
@@ -18,9 +62,9 @@
       </div>
 
       <div class="md:w-[60%] bg-white p-3 rounded-lg">
-        <div v-if="true">
-          <p class="mb-2">Title</p>
-          <p class="font-light text-[12px] mb-2">Description Section</p>
+        <div v-if="product && product.data">
+          <p class="mb-2">{{ product.data.title }}</p>
+          <p class="font-light text-[12px] mb-2">{{ product.data.description }}</p>
         </div>
 
         <div class="flex items-center pt-1.5">
@@ -83,42 +127,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-  import {useUserStore} from "~/store/user";
-
-  let currentImage = ref<string | null>(null)
-  const {store: userStore} = useUserStore()
-  const route = useRoute()
-
-  onMounted(() => {
-    watchEffect(() => {
-      currentImage.value = 'https://ae04.alicdn.com/kf/S9aea7083b5894222ab96a20d1dd61bf4j.jpg_480x480.jpg_.webp'
-      images.value[0] = 'https://ae04.alicdn.com/kf/S9aea7083b5894222ab96a20d1dd61bf4j.jpg_480x480.jpg_.webp'
-    })
-  })
-
-  const isInCart = computed(() => {
-    userStore.cart.forEach(prod => {
-      if (route.params.id === prod.id) {
-        return true
-      }
-    })
-    return false
-  })
-
-  const images = ref([
-      '',
-      'https://ae04.alicdn.com/kf/Seff3d8a598944413be64fdb31170eaf1i.jpg_480x480.jpg_.webp',
-      'https://ae04.alicdn.com/kf/S369c4bc5128d47b99813568505f6d497Q.jpg_480x480.jpg_.webp',
-      'https://ae04.alicdn.com/kf/H0f77f1a2f4bd4c0f9c909dd25e7303ff6.jpg_480x480.jpg_.webp',
-  ])
-
-  const priceComputed = computed(() => {
-    return '26.40'
-  })
-
-  const addToCart = () => {
-    alert('ADDED')
-  }
-</script>

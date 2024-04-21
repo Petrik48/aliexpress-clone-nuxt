@@ -1,5 +1,5 @@
 
-export const PAYMENTS_DATA: string[] = [
+export const PAYMENTS_DATA = [
   'visa.png',
   'mastercard.png',
   'paypal.png',

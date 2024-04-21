@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {useUserStore} from "~/store/user";
 import type {Ref} from "vue";
-import {EnumErrorType, type IError} from "~/types/addres.types";
+import {EnumErrorType, type IError} from "~/types/address.types";
 
 const {store: userStore} = useUserStore()
 
